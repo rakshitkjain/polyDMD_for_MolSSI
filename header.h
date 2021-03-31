@@ -1,4 +1,4 @@
-//MD: header.h C++ and library headers (Revision Date: 25th April 2019)
+//MD: header.h C++ and library headers (Revision Date: 31st March 2021)
 //Global headers
 #ifndef _HEADER_H
 #define _HEADER_H
@@ -21,8 +21,6 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_permutation.h>
 #include <gsl/gsl_sort_vector.h>
-//#include <boost/math/special_functions/spherical_harmonic.hpp>
-//#include <boost/program_options.hpp>
 #include <ctime>
 #define PI 3.14159265
 #ifdef _OPENMP
@@ -33,7 +31,5 @@
   #define omp_get_thread_num() 0
   #define _IS_SERIAL_ 1
 #endif
-//using namespace boost::program_options;
-//using namespace boost::math;
 using namespace std;
 #endif
