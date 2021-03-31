@@ -1,0 +1,11 @@
+BONDS
+CG     CG     1.2000	!
+
+PSEUDO
+CG     CG     1.6000	!
+
+NONBOND
+CG     CG     1.0000  2.0000  -2.0000	!
+
+END
+RETURN

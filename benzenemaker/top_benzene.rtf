@@ -1,0 +1,35 @@
+! This is a topology file designed to build psf and pdb files for the charmm 
+! generalized force field. 
+
+MASS    01 HGR61  1.00800   ! Hydrogen bonded to aromatic carbo
+MASS    02 CG2R61 12.01100  ! Aromatic Carbon
+
+! DECL -CA
+! DECL -C
+! DECL -O
+! DECL +N
+! DECL +HN
+! DECL +CA
+DEFA FIRS none LAST none
+AUTO ANGLES DIHE
+
+RESI BEZ	   0.00
+GROUP
+ATOM CZ2  CG2R61  -0.115
+ATOM CD1  CG2R61  -0.115
+ATOM CE1  CG2R61  -0.115
+ATOM CZ1  CG2R61  -0.115
+ATOM CE2  CG2R61  -0.115
+ATOM CD2  CG2R61  -0.115
+ATOM HD1  HGR61    0.115
+ATOM HD2  HGR61    0.115
+ATOM HE1  HGR61    0.115
+ATOM HE2  HGR61    0.115
+ATOM HZ1  HGR61    0.115
+ATOM HZ2  HGR61    0.115
+
+BOND CZ2 CD1 CE1 CZ1 CE2 CD2
+BOND CZ2 HZ2 CD1 HD1 CE1 HE1
+BOND CD2 CZ2 CD1 CE1 CZ1 CE2
+BOND CZ1 HZ1 CD2 HD2 CE2 HE2
+

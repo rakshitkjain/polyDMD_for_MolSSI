@@ -1,0 +1,11 @@
+Output file for L=	40	 & N=	1200
+No. of collisions = 13200
+Initial TE= 61777.1	 Per particle basis 51.4809Initial KE= 64525.1	 Per particle basis 53.7709
+Final TE = 51672.3	 Per particle basis 43.0602Final KE= 55091.3	 Per particle basis 45.9094
+Compressibility factor = -1.68141Volume Fraction = 0
+No. of ghost collisions: 1320
+Time in system units: 0.128256	 Burn time0
+No. of bond_cols: 11448	 No. of sqw_cols: 1470	 Cellchanges:282	 Nbrlistchanges:0
+Start time: Mon Nov 23 15:42:37 2020
+Completion time: Mon Nov 23 16:25:51 2020
+

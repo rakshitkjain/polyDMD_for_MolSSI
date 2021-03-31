@@ -1,0 +1,10 @@
+package require psfgen
+topology top_benzene.rtf
+
+segment BEZ {pdb smallerbenzene.pdb}
+coordpdb smallerbenzene.pdb BEZ
+
+guesscoord
+regenerate angles dihedrals
+writepdb smallerbenzene1.pdb
+writepsf smallerbenzene.psf

@@ -1,0 +1,14 @@
+REMARK original generated coordinate pdb file
+ATOM      1  CZ2 BEZ A   1       9.780  20.683  29.680  1.00  0.00      BEZ  C
+ATOM      2  CD1 BEZ A   1      10.260  20.989  30.954  1.00  0.00      BEZ  C
+ATOM      3  CE1 BEZ A   1      10.867  19.999  31.726  1.00  0.00      BEZ  C
+ATOM      4  CZ1 BEZ A   1      10.995  18.704  31.224  1.00  0.00      BEZ  C
+ATOM      5  CE2 BEZ A   1      10.516  18.398  29.950  1.00  0.00      BEZ  C
+ATOM      6  CD2 BEZ A   1       9.909  19.389  29.178  1.00  0.00      BEZ  C
+ATOM      7  HD1 BEZ A   1      10.160  21.998  31.345  1.00  0.00      BEZ  H
+ATOM      8  HD2 BEZ A   1       9.535  19.151  28.186  1.00  0.00      BEZ  H
+ATOM      9  HE1 BEZ A   1      11.240  20.236  32.718  1.00  0.00      BEZ  H
+ATOM     10  HE2 BEZ A   1      10.616  17.389  29.560  1.00  0.00      BEZ  H
+ATOM     11  HZ1 BEZ A   1      11.468  17.932  31.825  1.00  0.00      BEZ  H
+ATOM     12  HZ2 BEZ A   1       9.307  21.455  29.078  1.00  0.00      BEZ  H
+END

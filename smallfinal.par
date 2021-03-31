@@ -1,0 +1,15 @@
+BONDS
+CG2R61     CG2R61     1.4000    !
+CG2R61     HGR61      1.0900	!
+
+PSEUDO
+CG2R61     CG2R61     2.4248    !
+HGR61      HGR61      2.0000    !
+CG2R61     HGR61      2.1000    !
+
+NONBOND
+CG2R61     CG2R61     2.2800  2.8000  -1.0000   !
+HGR61      HGR61      1.6000  2.6000  -1.0000   !
+CG2R61     HGR61      1.7000  2.5000  -1.0000   !
+END
+RETURN
