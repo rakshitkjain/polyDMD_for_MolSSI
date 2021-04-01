@@ -1,3 +1,4 @@
+//MD: Reads the input data from different types of files (Revision Date: 31st March 2021)
 #include "readfiles.h"
 //Reading PDB files 
 void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<double> &parameters)
@@ -8,7 +9,7 @@ void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<do
 
 	int cryst_line = 0, remark_line = 0, test;
 	int particle_number;
-//TO check if the first two lines are of Remark or CRYST1
+//T0 check if the first two lines are of Remark or CRYST1
 	ifstream in;
 	in.open(FileName);
 		std::getline(in,dumps1);
@@ -26,10 +27,10 @@ void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<do
 		{
 			remark_line = 2;
 			size_t cryst_position = dumps1.find(cryst);
-			if(cryst_position != std::string::npos)		//1st line is the cryst line
+			if(cryst_position != std::string::npos)			//1st line is the cryst line
 				{cryst_line = 1;}
 			else
-				{cryst_line = 0;}			//No cryst line
+				{cryst_line = 0;}				//No cryst line
 		}
 		else
 		{
@@ -47,14 +48,15 @@ void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<do
 			}
 		}
 	}
-	else							//Remark is in the 1st line
+//Remark is in the 1st line
+	else							
 	{
 		remark_line = 1;
 		size_t cryst_position = dumps2.find(cryst);
-		if(cryst_position != std::string::npos)		//2nd line is the cryst line
+		if(cryst_position != std::string::npos)				//2nd line is the cryst line
 			{cryst_line = 2;}
 		else
-			{cryst_line = 0;}			//No cryst line
+			{cryst_line = 0;}					//No cryst line
 	}
 	try 
 	{
@@ -87,7 +89,6 @@ void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<do
 				{cout<<"PDB file reading error, You gon done a mistake in the CRYST1 field"<<endl;}
 		}
 	}
-//<setw(4)<<P[i].type<<"  "<<setw(5)<<i+1<<" "<<setw(4)<<P[i].name<<" "<<setw(3)<<P[i].resname<<" "<<P[i].chaintype<<setw(4)<<P[i].chainnumber<<"    "<<setw(8)<<setprecision(3)<<P[i].coordinate.x<<setw(8)<<setprecision(3)<<P[i].coordinate.y<<setw(8)<<setprecision(3)<<P[i].coordinate.z<<setw(6)<<P[i].occupancy<<setw(6)<<P[i].tempfactor<<"      "<<setw(4)<<P[i].moltype<<setw(2)<<P[i].symbol<<endl;
 //Start to read the main file now
 //Now get the remark/cryst lines from the PDB
 	in.open(FileName);
@@ -95,19 +96,15 @@ void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<do
 		{
 			std::getline(in,dumps);
 			std::getline(in,dumps);
-//			cout<<dumps<<endl;
 		}
 		else if((test ==1 && remark_line == 0) || (test==0 && remark_line ==1) )
 		{
 			std::getline(in,dumps);
-//			cout<<dumps<<endl;
 		}
 		int count = 0;	
-//		std::istringstream chaintypestream, chainnumberstream, coordinatestream, diameterstream, occupancystream;		
 		while(!in.eof())
 		{
 			std::getline(in,line);
-//			cout<<line<<endl;
 			//Now start reading the lines for the data
 			if(line.find("ATOM") != std::string::npos )
 			{
@@ -124,12 +121,10 @@ void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<do
 				coordinatestream >> p.coordinate.x >> p.coordinate.y >> p.coordinate.z;
 				std::istringstream occupancystream(line.substr(54,6));
 				occupancystream >> p.occupancy;
-//				p.tempfactor = line.substr(60,6);//Will write the diameter instead of temp factor while creating pdb file
 				std::istringstream diameterstream(line.substr(60,6));
 				diameterstream >> p.diameter;
 				p.moltype = line.substr(72,4);
 				p.symbol = line.substr(76,2);
-//				cout<<"Read some stuff from the file "<<particle_number<<endl;
 				if(count + 1 == particle_number)
 				{
 					P.push_back(p);
@@ -155,12 +150,10 @@ void ReadFiles::ReadPDBFile(std::string FileName, vector<Particle> &P, vector<do
 				coordinatestream >> p.coordinate.x >> p.coordinate.y >> p.coordinate.z;
 				std::istringstream occupancystream(line.substr(56,6));
 				occupancystream >> p.occupancy;
-//				p.tempfactor = line.substr(62,6);
 				std::istringstream diameterstream(line.substr(62,6));
 				diameterstream >> p.diameter;
 				p.moltype = line.substr(74,4);
 				p.symbol = line.substr(78,2);
-//				cout<<"Read some stuff from the file "<<particle_number<<endl;
 				if(count + 1 == particle_number)
 				{
 					P.push_back(p);
@@ -195,32 +188,19 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 	ifstream in;
 	in.open(FileName);
 		std::getline(in,line);
-//		cout<<line<<endl;
 		while(!in.eof())
 		{
 			//Atom records not found condition
 			while((line.find("!NATOM")) == std::string::npos)			
 			{
 				std::getline(in,line);
-//				cout<<line<<endl;
 			}
 			natom_found = true;
 			std::istringstream linestream(line);
 			linestream >> n_residue;			//Number of atom records in the file
-//			cout<<"n_residue = "<<n_residue<<endl;
-//			while((line.find("!NATOM")) != std::string::npos)
 			while(particle_number < n_residue)
 			{
-//				std::getline(in,line);
-//				cout<<line<<endl;
 				in >> particle_number >> moltype >> chainnumber >> resname >> name >> atomtype >> charge >> mass >> dump;
-//cout<<particle_number<<"\t"<<moltype<<"\t"<<chainnumber<<" \t"<<resname<<"\t"<<name<<"\t"<<atomtype<<" \t"<<charge<<"\t"<<mass<<"\t"<<dump<<endl;
-//				if(P[particle_number - 1].moltype != moltype)
-//				{
-//					cout<<"Error when reading moltype for particle number"<<particle_number<<endl;
-//					cout<<"Moltype = "<<P[particle_number - 1].moltype<<"read moltype = "<<moltype<<endl;
-//					exit(1);
-//				}
 				if(P[particle_number - 1].chainnumber != chainnumber)
 				{
 					cout<<"Error when reading chainnumber for particle number"<<particle_number<<endl;
@@ -231,30 +211,19 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 					cout<<"Error when reading resname for particle number"<<particle_number<<endl;
 					exit(1);
 				}
-//				else if(P[particle_number - 1].name != name)
-//				{
-//					cout<<"Error when reading name for particle number"<<particle_number<<endl;
-//					exit(1);
-//				}
-//This means all the entries are fine in the psf file, matching with the pdb file, so take data from psf
+				//This means all the entries are fine in the psf file, matching with the pdb file, so take data from psf
 				else		
 				{
 					P[particle_number-1].charge = charge;
 					P[particle_number-1].mass = mass;
 					P[particle_number-1].atomtype.replace(P[particle_number-1].atomtype.begin(), P[particle_number-1].atomtype.end(), atomtype);
-//					cout<<"particle_number-1 = "<<particle_number-1<<"\t atomtype = "<<P[particle_number-1].atomtype<<endl;					
 				}	
 			}
-//			else
-//			{
-//				cout<<"Something fishy with psf file while taking mass and charge, recheck it"<<endl;
-//			}
 			//Now start to collect bond records
 			//Bond records not found condition
 			while((line.find("!NBOND")) == std::string::npos)			
 			{
 				std::getline(in,line);
-//				cout<<line<<endl;
 			}
 			nbond_found = true;
 			std::istringstream linestream1(line);
@@ -264,7 +233,6 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 			while(bond_counter < bond_number)			
 			{
 				in>>bond[0]>>bond[1]>>bond[2]>>bond[3]>>bond[4]>>bond[5]>>bond[6]>>bond[7];
-//				cout<<bond[0]<<"\t"<<bond[1]<<"\t"<<bond[2]<<"\t"<<bond[3]<<"\t"<<bond[4]<<" \t"<<bond[5]<<"\t"<<bond[6]<<"\t"<<bond[7]<<endl;
 				for(int i = 0; i<8; i=i+2)
 				{
 					if(bond[i]<bond[i+1])
@@ -320,16 +288,11 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 					bond_counter = bond_counter + 1;
 				}
 			}
-//			else
-//			{
-//				cout<<"Something fishy with psf file when taking in bonds, recheck it"<<endl;
-//			}
 			//Now read the angles as pseudobonds and use the values for parameters iff you want to keep it fixed
 			//Angle records not found condition
 			while((line.find("!NTHETA")) == std::string::npos)			
 			{
 				std::getline(in,line);
-//				cout<<line<<endl;
 			}
 
 			anglebond_found = true;
@@ -339,10 +302,9 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 			while(angle_counter < angle_number)
 			{
 				in>>anglebonds[0]>>anglebonds[1]>>anglebonds[2]>>anglebonds[3]>>anglebonds[4]>>anglebonds[5]>>anglebonds[6]>>anglebonds[7]>>anglebonds[8];
-//cout<<anglebonds[0]<<"\t"<<anglebonds[1]<<"\t"<<anglebonds[2]<<"\t"<<anglebonds[3]<<"\t"<<anglebonds[4]<<" \t"<<anglebonds[5]<<"\t"<<anglebonds[6]<<"\t"<<anglebonds[7]<<"\t"<<anglebonds[8]<<endl;
 				for(int i = 0; i<9; i=i+3)
 				{
-//Placing the anglebond near previous bond occurence for that first atom, makes it easy to order the bondlist
+					//Placing the anglebond near previous bond occurence for that first atom, makes it easy to order the bondlist
 					diditfeed = false;
 					if(anglebonds[i]<anglebonds[i+2])
 					{
@@ -394,7 +356,7 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 				}
 				for(int i = 0; i<3*(n_angles%3); i=i+3)
 				{
-//Placing the anglebond near previous bond occurence for that first atom, makes it easy to order the bondlist
+					//Placing the anglebond near previous bond occurence for that first atom, makes it easy to order the bondlist
 					diditfeed = false;
 					if(anglebonds[i]<anglebonds[i+2])
 					{
@@ -435,7 +397,6 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 			}
 			break;
 		}
-//		cout<<"Closed PSF file"<<endl;
 		if(!natom_found || !nbond_found || !anglebond_found)
 		{
 			cout<<"You did a booboo in natom records in psf"<<endl;
@@ -461,22 +422,12 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 			{break;}
 	}
 
-//Checking if the bondlist has been made or not
-//	for(int i = 0; i<bondlist.size();i++)
-//	{
-//		cout<<"partner1="<<bondlist[i].partner1<<"\t partner2="<<bondlist[i].partner2<<"\t middle="<<bondlist[i].middle<<"\t bondlength ="<<bondlist[i].bondlength<<endl;
-//	}
-	//making a list of different types of atomtypes in the system
+//making a list of different types of atomtypes in the system
 	for(int i = 0; i < P.size(); i++)
 	{
-//		cout<<"atomtype of P[i] = "<<P[i].atomtype<<endl;
 		atomtype.replace(atomtype.begin(),atomtype.end(), P[i].atomtype);
-//		cout<<"Atomtype being overwritten to = "<<atomtype<<endl;
-//		cout<<"Size of atomtype_vector = "<<atomtype_vector.size()<<endl;
-		//To see if that atomtype is a repetition or not
 		for(int j = 0; j<atomtype_vector.size(); j++)
 		{
-//			cout<<"atomtype_vector[j]"<<atomtype_vector[j]<<endl;
 			if(atomtype == atomtype_vector[j])
 			{
 				atomtype_found = true;
@@ -488,13 +439,11 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 		if(atomtype_found == false)
 		{
 			atomtype_vector.push_back(atomtype);
-//			cout<<"atomtype = "<<atomtype<<endl;
 		}
 		else
 			{continue;}
 	}
-//	cout<<"Size of atomtype_vector = "<<atomtype_vector.size()<<endl;
-	//Initializing the nonbond list, this prevents repetition of pairs
+//Initializing the nonbond list, this prevents repetition of pairs
 	for(int i = 0; i < atomtype_vector.size(); i++)
 	{
 		for(int j = i; j < atomtype_vector.size(); j++)
@@ -504,23 +453,6 @@ void ReadFiles::ReadPSFFile(std::string FileName, vector<Particle> &P, vector<BO
 			nonbondlist.push_back(filler);
 		}
 	}
-
-
-//	for(int i = 0; i < P.size(); i++)			//Now checking for each line, if there is a particle with the same denomination in the nonbonded particle list
-//	{
-//		for(int j = i+1; j<P.size(); j++)
-//		{					//Seeing if this particle pair is in this line we are looking at
-//			for(int k =0; k<bondlist.size(); k++)		//Seeing if that i,j pair is bonded
-//			{
-//				if((i != bondlist[k].partner1 && j != bondlist[k].partner2) && (j != bondlist[k].partner1 && i != bondlist[k].partner2))
-//				{//Now we are sure that the particles are not bonded
-//					filler.partner1 = i;
-//					filler.partner2 = j;
-//					nonbondlist.push_back(filler);
-//				}
-//			}
-//		}
-//	}					
 }
 //Read parameter file for bondlength for covalents, bondlength for pseudos, and all parameters for nonbonded particles (INCLUDES MULTIPLE POTENTIALS AS WELL)
 void ReadFiles::ReadParameterFile(std::string FileName, vector<Particle> &P, vector<BOND> &bondlist, vector<NONBOND> &nonbondlist )
@@ -531,28 +463,23 @@ void ReadFiles::ReadParameterFile(std::string FileName, vector<Particle> &P, vec
 	std:istringstream linestream;
 	bool nonbond_found = false;
 	double bondlen;
-//	size_t a1, a2;
 	bool foundit = false;
 	int counter_covalent = 0, counter_pseudo = 0;
 	
-//	cout<<"Reached here"<<endl;
 	ifstream in;
 	in.open(FileName);
 		std::getline(in,line);
-//		cout<<line<<endl;
-		while((line.find("BONDS")) == std::string::npos)			//Bond records not found condition
+		//Bond records not found condition
+		while((line.find("BONDS")) == std::string::npos)			
 		{
 			std::getline(in,line);
-//			cout<<line<<endl;
 		}
-//		std::getline(in,line);
-//		cout<<line<<endl;
-		while((line.find("PSEUDO")) == std::string::npos)		//Means that the pseudobond section has still not started
+		//Means that the pseudobond section has still not started
+		while((line.find("PSEUDO")) == std::string::npos)		
 		{
 			std::istringstream linestream(line);
 			linestream>>dumper[0]>>dumper[1];
 			linestream>>bondlen;
-//			cout<<"dumper[0] = "<<dumper[0]<<"\t dumper[1] = "<<dumper[1]<<"\t bondlen = "<<bondlen<<endl;
 			for(int i = 0; i< bondlist.size();i++)
 			{
 				if((P[bondlist[i].partner1].atomtype == dumper[0] && P[bondlist[i].partner2].atomtype == dumper[1]) || (P[bondlist[i].partner1].atomtype == dumper[1] && P[bondlist[i].partner2].atomtype == dumper[0]))
@@ -561,35 +488,24 @@ void ReadFiles::ReadParameterFile(std::string FileName, vector<Particle> &P, vec
 					{foundit = false;}
 				if(foundit == true && bondlist[i].middle == -1)
 				{
-//					cout<<line<<endl;
 					bondlist[i].bondlength = bondlen;
 					counter_covalent = counter_covalent + 1;
 				}
 			}				
 			std::getline(in,line);
-//			cout<<line<<endl;
 		}
-//		else
-//		{
-//			cout<<"Stuff gon wrong when reading the parameter file bond section"<<endl;
-//			exit(1);
-//		}
 		//Now start with the pseudobonds section
-//		cout<<"counter of bonds filled = "<<counter_covalent<<endl;
 		//Pseudobond records not found condition
 		while((line.find("PSEUDO")) == std::string::npos)			
 		{
 			std::getline(in,line);
-///			cout<<line<<endl;
 		}
-//		std::getline(in,line);
 		//Means that the nonbond section has still not started
 		while((line.find("NONBOND")) == std::string::npos)		
 		{
 			std::istringstream linestream(line);
 			linestream>>dumper[0]>>dumper[1];
 			linestream>>bondlen;
-//			cout<<"dumper[0]="<<dumper[0]<<"\tdumper[1]="<<dumper[1]<<"\tbondlen= "<<bondlen<<endl;				
 			for(int i = 0; i< bondlist.size();i++)
 			{
 				if((P[bondlist[i].partner1].atomtype == dumper[0] && P[bondlist[i].partner2].atomtype == dumper[1]) || (P[bondlist[i].partner1].atomtype == dumper[1] && P[bondlist[i].partner2].atomtype == dumper[0]))
@@ -598,24 +514,13 @@ void ReadFiles::ReadParameterFile(std::string FileName, vector<Particle> &P, vec
 					{foundit = false;}
 				if(foundit == true && bondlist[i].middle >= 0)
 				{
-//					cout<<line<<endl;
 					bondlist[i].bondlength = bondlen;
-//					cout<<"bondlen = "<<bondlen<<endl;
-//					cout<<"partner1="<<bondlist[i].partner1<<"\t partner2="<<bondlist[i].partner2<<"\t middle="<<bondlist[i].middle<<"\t bondlength ="<<bondlist[i].bondlength<<endl;
-//					cout<<"Particle 1 = "<<bondlist[i].partner1<<"\t atomtype = "<<P[bondlist[i].partner1].atomtype<<"Particle 2 = "<<bondlist[i].partner2<<"\t atomtype = "<<P[bondlist[i].partner2].atomtype<<endl;
 					counter_pseudo = counter_pseudo + 1;
 				}
 			}				
 			std::getline(in,line);
-//			cout<<line<<endl;
 		}
-//		else
-//		{
-//			cout<<"Stuff gon wrong when reading the parameter file pseudobond section"<<endl;
-//			exit(1);
-//		}
 		//MAKING SURE ALL THE BONDS AND PSEUDOBONDS ARE FILLED
-//		cout<<"counter of pseudobonds filled = "<<counter_pseudo<<endl;
 		int j = 0;
 		while(j< bondlist.size())
 		{
@@ -638,27 +543,20 @@ void ReadFiles::ReadParameterFile(std::string FileName, vector<Particle> &P, vec
 		while((line.find("NONBOND")) == std::string::npos)			
 		{
 			std::getline(in,line);
-//			cout<<line<<endl;
 		}
-//		std::getline(in,line);
-//		cout<<"Pahucha"<<endl;
 		std::getline(in,line);
-//		cout<<line<<endl;
 		//Means that the nonbond section has still not ended
 		while(line.find("END") == std::string::npos)			
 		{
 			std::istringstream linestream(line);
 			linestream>>dumper[0]>>dumper[1];
 			linestream>>L1>>L2>>epsilon;
-//			cout<<"dumper[0] = "<<dumper[0]<<"\t dumper[1] = "<<dumper[1]<<endl;
-//			cout<<"L1 = "<<L1<<"\t L2 = "<<L2<<"\t epsilon = "<<epsilon<<endl;
 			for(int i = 0; i< nonbondlist.size(); i++)
 			{
 				if((nonbondlist[i].partner1 == dumper[0] && nonbondlist[i].partner2 == dumper[1]) || (nonbondlist[i].partner1 == dumper[1] && nonbondlist[i].partner2 == dumper[0]))
 				{
-//So, here, the particle pair is in the parameter file and it is nonbonded pair, so read the data
-//If multiple potentials and this is the first one
-//					cout<<line<<endl;
+					//So, here, the particle pair is in the parameter file and it is nonbonded pair, so read the data
+					//If multiple potentials and this is the first one
 					if(nonbondlist[i].L1.size() == 0)
 					{
 						nonbondlist[i].L1.push_back(L1);
@@ -666,7 +564,7 @@ void ReadFiles::ReadParameterFile(std::string FileName, vector<Particle> &P, vec
 						nonbondlist[i].epsilon.push_back(epsilon);
 					}
 					else
-					{//This makes sure that the wells are continuous
+					{	//This makes sure that the wells are continuous
 						if(nonbondlist[i].L2[nonbondlist[i].L2.size()]==L1)
 						{
 							nonbondlist[i].L1.push_back(L1);	
@@ -674,7 +572,7 @@ void ReadFiles::ReadParameterFile(std::string FileName, vector<Particle> &P, vec
 							nonbondlist[i].epsilon.push_back(epsilon);
 						}//Do nothing if repetition 
 						else if(nonbondlist[i].L2[nonbondlist[i].L2.size()]==L2 && nonbondlist[i].L1[nonbondlist[i].L1.size()]==L1 && nonbondlist[i].epsilon[nonbondlist[i].epsilon.size()]==epsilon)
-						{/*cout<<"entering here as well"<<endl;*/}
+						{}
 						else//Something weird is happening then
 						{
 							cout<<"Weird stuff reading from the parameter file"<<endl;

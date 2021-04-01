@@ -1,3 +1,4 @@
+#rdf_fin compilation incomplete
 PROG = MD
 #PROG1 = RDF
 

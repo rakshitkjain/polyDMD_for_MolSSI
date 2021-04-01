@@ -49,7 +49,6 @@ class System
 	void min_img(XYZ&, double);					//Minimum image convention
 	double RandomGaussianNumber();					//Generate a gaussian number for a gaussian velocity profile
 	bool CheckOverlap(vector<Particle>&); 				//Checking particle overlaps	
-	bool CheckOverlap_bead(int, vector<Particle>&);			//Checking initialising chain overlap	
 	double pe(vector<Particle>&, int);				//Potential energy calculating function	
 	double ke(vector<Particle>&, int);				//Kinetic Energy calculating function	
 	VEL net_momentum(vector<Particle>&, int);			//Net simulation box momentum	

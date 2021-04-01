@@ -1,5 +1,6 @@
- #include "rdf.h" 
-
+//MD: Radial Distribution function calculation during the run (Revision Date: 31st March 2021)
+#include "rdf.h" 
+//Initializing RDF calculator
 void RDF::RDF_ini(double L, int maxbin)
 {
 	delta_r = L/(double(maxbin));
@@ -12,7 +13,6 @@ void RDF::RDF_ini(double L, int maxbin)
 		r.push_back(0);
 	}
 }
-
 //Inputs needed for this: L, x,y,z coord, N
 //The rdf function being called again and again to calculate the net change in the particle moves
 void RDF::RDF_r(double L, int N, const vector<Particle> P, int maxbin)
@@ -30,7 +30,8 @@ void RDF::RDF_r(double L, int N, const vector<Particle> P, int maxbin)
 			mi.S.min_img(counter, L);
 			r = counter.norm();
 			bin = std::floor(r/delta_r);
-			if(bin > maxbin || bin < 0)					//Loop needed to find out if there is a wrong bin assignemnt for any particle pair
+			//Loop needed to find out if there is a wrong bin assignemnt for any particle pair
+			if(bin > maxbin || bin < 0)					
 			{
 				cout<<"i = "<<i<<"\t X = "<<P[i].coordinate.x<<"\t Y = "<<P[i].coordinate.y<<"\t Z = "<<P[i].coordinate.z<<"\t VX = "<<P[i].velocity.vx<<"\t VY = "<<P[i].velocity.vy<<"\t VZ = "<<P[i].velocity.vz<<endl;
 				cout<<"j = "<<j<<"\t X = "<<P[j].coordinate.x<<"\t Y = "<<P[j].coordinate.y<<"\t Z = "<<P[j].coordinate.z<<"\t VX = "<<P[j].velocity.vx<<"\t VY = "<<P[j].velocity.vy<<"\t VZ = "<<P[j].velocity.vz<<endl;
@@ -44,7 +45,6 @@ void RDF::RDF_r(double L, int N, const vector<Particle> P, int maxbin)
 	}
 }	
 //inputs are L, maxbin, N, a, temp, mass
-//rdf funtion at the end to calculate the final normalised rdf
 void RDF::RDF_write(double L, int N, int maxbin, std::string FileName)
 {
 	int i, bin;
@@ -54,14 +54,13 @@ void RDF::RDF_write(double L, int N, int maxbin, std::string FileName)
 		rlower = double(i)*delta_r;
 		rupper = double(i+1)*delta_r;
 		nideal = 4*PI*double(N)*((rupper*rupper*rupper) - (rlower*rlower*rlower))/3;
-		//nideal = 1;
 		gr[i] = double(hist[i])/(double(rdf_steps)*double(N)*nideal);			//Normalising wrt nideal
 		r[i] = rlower + 0.5*delta_r;
 	}
-	std::ostringstream fnd;//FileName dummy
+	std::ostringstream fnd;
 	fnd<<"_rdf"<<FileName<<".dat";
 	std::string FileName1 = fnd.str();
-
+//Rdf funtion at the end to calculate the final normalised rdf
 	ofstream out;
 	out.open(FileName1,ios::app);
 		out<<"Distance between particles \t RDF"<<endl;

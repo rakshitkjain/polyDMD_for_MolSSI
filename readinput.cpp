@@ -1,3 +1,4 @@
+//Here we define functions for reading input (Revision Date 31st March 2021)
 #include "readinput.h"
 
 void ReadInput::printHelpMessage()
@@ -21,17 +22,9 @@ void ReadInput::printHelpMessage()
 	cout<<"  -psf, filename_psf------>PSF filename (Simul won't work without filename) (default test.psf)"<<endl;
 	cout<<"  -par, filename_par------>Parameter filename (Simul won't work without filename) (default test.par)"<<endl;
 	cout<<"  -out, filename_out------>Partial output filename (Will be same as the name of pdb file if not given) (default test)"<<endl;
-//	cout<<"  -n, nchains------------->No. of chains (default 8)"<<endl;
-//	cout<<"  -s, sigma1-------------->Particle diameter (default 1.0)"<<endl;
-//	cout<<"  -g, sigma2-------------->Square well diameter (default 2.0)"<<endl;
-//	cout<<"  -m, mass---------------->Particle mass in amu (default 1.0)"<<endl;
-//	cout<<"  -d, well_depth---------->Square well depth (positive means depth)  (default 1.0)"<<endl;
-//	cout<<"  -b, bondlength---------->Average bond length (default 1.5)"<<endl;
-//	cout<<"  -c, chainlength--------->Number of particles in chain (default 10)"<<endl;
-//	cout<<"  -v, maxvel-------------->Maximum velocity allowed, to calculate nbrlist update frequency (default 10.0)"<<endl;
 }
-
-int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y and z coordinates as well as velocities
+//Reading x, y and z coordinates as well as velocities
+int ReadInput::ReadVariables(int argc, vector<string> arguments)
 {
 //Writing the default values of the parameters, which we use if no flag specified
 	initialize.L = 20; initialize.nsweep = 1000; initialize.maxbin = 1000; initialize.andersen_freq = 10; 
@@ -42,9 +35,6 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 	initialize.filename_par = "test.par"; initialize.filename_out = "test";
 	bool pdb = false, psf = false, out = false, par = false;
 //Write the arguments to a string vector
-//	vector<string> arguments;
-//	for(int i = 0; i< argc; i++)
-//		{arguments.push_back(string(argv[i]));}
 	for(size_t i =0; i<arguments.size(); i++)
 	{
 		//Means this is not the only thing in the vector
@@ -58,7 +48,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-l")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -79,7 +69,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-e")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value must be written after the flag, exiting due to no value returned"<<endl;
@@ -100,7 +90,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-T")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -121,7 +111,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-i")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -142,7 +132,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-w")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -163,7 +153,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-f")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -184,7 +174,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-a")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -205,7 +195,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-q")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -226,7 +216,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-pf")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -247,7 +237,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-p")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -268,7 +258,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-b")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -289,7 +279,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-pdb")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -304,7 +294,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-psf")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -319,7 +309,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-par")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;
@@ -334,7 +324,7 @@ int ReadInput::ReadVariables(int argc, vector<string> arguments)//reading x, y a
 			}
 			else if(arguments[i] == "-out")
 			{
-			//Checking if its the last argument or if the next is not a value for the variable
+				//Checking if its the last argument or if the next is not a value for the variable
 				if(i+1>=arguments.size() || arguments[i+1].find("-") != arguments[i+1].npos)
 				{
 					cerr<<"Value not written after the flag so exiting"<<endl;

@@ -1,7 +1,6 @@
-#include "header.h"
-
+//MD: Radial Distribution function calculation after the run (Revision Date: 31st March 2021)
 //this file is for rdf calculation in case the simulation needs to stop in between, so this will calculate the RDF from a coordinate file (DUMP) and use it to calculate rdfs
-
+#include "header.h"
 string DUMP;
 int maxbin;
 void ReadInput ( int argc, char *argv[] )
@@ -39,17 +38,17 @@ int main ( int argc, char *argv[] )
 	int N, n_sets;
 	double dumpi, dumpd;
 	char dumps[200];
-	int count=0;//count gives the number of lines in the dump file
+	int count=0;					//count gives the number of lines in the dump file
 	vector<double> X;
-	vector<double> Y;//storing particle coordinates
+	vector<double> Y;				//storing particle coordinates
 	vector<double> Z;
 	double x,y,z, nideal, rlower, rupper;
     	int i, j, k, bin;
 	double r2 = 1, r = 0, rx = 0, ry = 0, rz = 0;	
 
-	vector<int>hist;//Used to tally the radial distribution function
-	vector<double>gr;//Exact radial distribution function
-	vector<double>rad;//Distance between two particles
+	vector<int>hist;				//Used to tally the radial distribution function
+	vector<double>gr;				//Exact radial distribution function
+	vector<double>rad;				//Distance between two particles
 
 	ifstream in;
 	in.open(DUMP.c_str());
@@ -73,7 +72,7 @@ int main ( int argc, char *argv[] )
 		in.getline(dumps,256);
 		in>>dumpd>>L;
 	in.close();
-	n_sets = int(double(count)/double(N+9));//No. of sets stored in the dump file
+	n_sets = int(double(count)/double(N+9));	//No. of sets stored in the dump file
 	cout<<"N="<<N<<"\t L="<<L<<"\t Number of sets in the dump file = "<<n_sets<<endl;
 	for(i = 0; i<=maxbin; i++)
 	{
@@ -84,12 +83,6 @@ int main ( int argc, char *argv[] )
 
 	delr = L/(2*double(maxbin));
 
-/*	for(i = 0; i<N; i++)
-	{
-		X.push_back(0);
-		Y.push_back(0);
-		Z.push_back(0);
-	}	*/
 //Reading particle coordinates and storing in a single array//calculating hist value for the system
 	int c=0;
 	int sets = 0;
@@ -115,10 +108,6 @@ int main ( int argc, char *argv[] )
 				Z.push_back(z);
 			}
 			in.getline(dumps,256);
-/*			for(i=0; i<N; i++)
-			{
-				cout<<"i= "<<i<<"\t X = "<<X[sets*N + i]<<"\t Y= "<<Y[sets*N + i]<<"\t Z = "<<Z[sets*N + i]<<endl;
-			}*/
 			sets = sets + 1;
 		}
 	in.close();
@@ -130,23 +119,14 @@ int main ( int argc, char *argv[] )
 		{
 			for(j = i+1; j<N; j++)
 			{
-//				cout<<"i= "<<i<<"\t X = "<<X[sets*N + i]<<"\t Y= "<<Y[sets*N + i]<<"\t Z = "<<Z[sets*N + i]<<"j= "<<j<<"\t X = "<<X[sets*N + j]<<"\t Y= "<<Y[sets*N + j]<<"\t Z = "<<Z[sets*N + j]<<"\t rx = "<<rx<<"\t ry = "<<ry<<"\t rz = "<<rz<<"\t r2 = "<<r2<<"\t r ="<<r<<endl;
 				rx = X[sets*N + i] - X[sets*N + j];
 				ry = Y[sets*N + i] - Y[sets*N + j];
 				rx = Z[sets*N + i] - Z[sets*N + j];
-//				cout<<"i= "<<i<<"\t X = "<<X[sets*N + i]<<"\t Y= "<<Y[sets*N + i]<<"\t Z = "<<Z[sets*N + i]<<"j= "<<j<<"\t X = "<<X[sets*N + j]<<"\t Y= "<<Y[sets*N + j]<<"\t Z = "<<Z[sets*N + j]<<"\t rx = "<<rx<<"\t ry = "<<ry<<"\t rz = "<<rz<<"\t r2 = "<<r2<<"\t r ="<<r<<endl;
 				min_img(rx,ry,rz, L);
 				r2 = rx*rx + ry*ry + rz*rz;
 				r = sqrt(r2);
-//				cout<<"i= "<<i<<"\t X = "<<X[sets*N + i]<<"\t Y= "<<Y[sets*N + i]<<"\t Z = "<<Z[sets*N + i]<<"j= "<<j<<"\t X = "<<X[sets*N + j]<<"\t Y= "<<Y[sets*N + j]<<"\t Z = "<<Z[sets*N + j]<<"\t rx = "<<rx<<"\t ry = "<<ry<<"\t rz = "<<rz<<"\t r2 = "<<r2<<"\t r ="<<r<<endl;
-/*				if(r<0.5)
-				{
-					cout<<"r<1 for set no. = "<<sets<<"\t and particles no. "<<i<<"\t and"<<j<<endl;
-					exit(1);
-				}*/
 				bin = int(r/delr);
 				hist[bin] = hist[bin] + 2;
-//				r2 = 1, r = 0, rx = 0, ry = 0, rz = 0;
 			}
 		}
 		sets = sets + 1;

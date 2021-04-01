@@ -1,4 +1,4 @@
-//DMD: MAIN CODE (Revision Date: 7th Jan 2020)
+//MD: MAIN CODE (Revision Date: 31st March 2021)
 #include "header.h"
 #include "system.h"
 #include "timecalc.h"
@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
 	reader.ReadVariables(argc, arguments);
 //Create system
 	reader.initialize.Create();	
-
 	Collision C;
 	RDF rdf;
 	C.TC.S = reader.initialize;
@@ -45,16 +44,15 @@ int main(int argc, char *argv[])
 	writer.TimeVarFileIni(C.TC.S.filename_out);
 //Parameters time variation file printing
 	writer.TimeVarFile(C.TC.S.TIME, eni_ke, C.TC.S.potential_energy, eni_te, momentum, C.TC.S.filename_out);
-//initialising RDF
+//Initialising RDF
 	rdf.RDF_ini(C.TC.S.L, C.TC.S.maxbin);
 //Write dump, PDB and binary file for particle coords
 	writer.WriteDump(0.0, C.TC.S.P, C.TC.S.N, C.TC.S.L, C.TC.S.filename_out);
 	writer.PDBFile(C.TC.S.P, C.TC.S.filename_out);	
 	writer.DCDWriteStep(C.TC.S.P, C.TC.S.N, C.TC.S.filename_out);
-
 //Useful to check if the file already exists or not
 	ofstream out;
-                std::ostringstream fnd;//FileName dummy
+                std::ostringstream fnd;
                 fnd<<C.TC.S.filename_out<<".txt";
                 std::string FileName = fnd.str();                                                      
 //Checking initialisation overlap
@@ -65,7 +63,6 @@ int main(int argc, char *argv[])
 	}
 //Initialising time array
 	C.TC.timearray_initialization(C.TC.S.N);
-
 //If using celllist or neighborlist or not, then making the first timelist
 	if(C.TC.S.celllist_counter)
 	{
@@ -123,18 +120,6 @@ int main(int argc, char *argv[])
 				//Neither celllist nor neighborlist used
 				else if(!(C.TC.S.celllist_counter) && !(C.TC.S.neighborlist_counter))
 				{
-/*					for (i=0; i<C.TC.S.N; i++)
-					{
-						if(i==C.TC.collider)
-							{cout<<"i for C.TC.collider="<<C.TC.collider<<endl;}
-						if(C.TC.Partner[i]==C.TC.collider)
-							{cout<<"i for C.TC.Partner[i]="<<i<<endl;}
-						if(i==C.TC.col_partner)
-							{cout<<"i for C.TC.col_partner="<<i<<endl;}
-						if(C.TC.Partner[i]==C.TC.col_partner)
-							{cout<<"i for C.TC.Partner[i]=C.TC.col_partner="<<i<<endl;}
-					}
-					//Updating timelist after collision*/
 					for (int i=0; i<C.TC.S.N; i++)
 					{
 						if(i==thermostat_particle||C.TC.Partner[i]==thermostat_particle)
@@ -171,17 +156,16 @@ int main(int argc, char *argv[])
 				goto exit;
 			}
 
-		//Rewriting fpupdate_TIME to the last time when system was updated
+			//Rewriting fpupdate_TIME to the last time when system was updated
 			C.TC.S.fpupdate_TIME=C.TC.S.TIME;
 			fpupdate_counter=fpupdate_counter+1;
-		//Writing restart, datafiles and updating RDF everytime when particles at actual positions
+			//Writing restart, datafiles and updating RDF everytime when particles at actual positions
 			writer.WriteDump(C.TC.S.TIME, C.TC.S.P, C.TC.S.N, C.TC.S.L, C.TC.S.filename_out);
 			writer.RestartFile(C.TC.S.TIME, C.TC.S.P, C.TC.S.N, C.TC.S.filename_out);
 			writer.DCDWriteStep(C.TC.S.P, C.TC.S.N, C.TC.S.filename_out);
 			rdf.RDF_r(C.TC.S.L, C.TC.S.N, C.TC.S.P, C.TC.S.maxbin);
 		}
 		//If only cell list, use cell list functions
-
 		if(C.TC.S.celllist_counter && (!C.TC.S.neighborlist_counter))
 		{
 			if(C.didcellchange)
@@ -277,18 +261,6 @@ int main(int argc, char *argv[])
 		//neither celllist not neighborlist used
 		else if(!(C.TC.S.celllist_counter) && !(C.TC.S.neighborlist_counter))
 		{
-/*			for (i=0; i<C.TC.S.N; i++)
-			{
-				if(i==C.TC.collider)
-				{cout<<"i for C.TC.collider="<<C.TC.collider<<endl;}
-				if(C.TC.Partner[i]==C.TC.collider)
-				{cout<<"i for C.TC.Partner[i]="<<i<<endl;}
-				if(i==C.TC.col_partner)
-				{cout<<"i for C.TC.col_partner="<<i<<endl;}
-				if(C.TC.Partner[i]==C.TC.col_partner)
-				{cout<<"i for C.TC.Partner[i]=C.TC.col_partner="<<i<<endl;}
-			}
-			//Updating timelist after collision*/
 			for (i=0; i<C.TC.S.N; i++)
 			{
 				if(i == C.TC.collider || C.TC.Partner[i] == C.TC.collider || i == C.TC.col_partner || C.TC.Partner[i] == C.TC.col_partner)
@@ -329,12 +301,6 @@ int main(int argc, char *argv[])
 		//Time variation file printing
 			writer.TimeVarFile(C.TC.S.TIME, kineticenergy, C.TC.S.potential_energy, totalenergy, momentum, C.TC.S.filename_out);
 		}
-
-
-//		if(a%50 == 0 && !(C.TC.S.celllist_counter) && !(C.TC.S.neighborlist_counter))
-//		{			
-//				{C.TC.Collision_time(C.TC.S.L, C.TC.S.N);}				
-//		}
 		cout<<"Collider= "<<C.TC.collider<<"\t Partner= "<<C.TC.Partner[C.TC.collider];
 		cout<<"\t Time for this= "<<C.TC.S.TIME<<"Collision number= "<<a<<endl;
 		cout<<"Collider x= "<<C.TC.S.P[C.TC.collider].coordinate.x<<"\t y =";
@@ -497,7 +463,6 @@ int main(int argc, char *argv[])
 	}
  	exit:
 //Writing the final dump and DCD files
-//	C.AllParticlePositionUpdater(C.TC.S.N, C.TC.S.P, C.TC.S.TIME, C.TC.S.fpupdate_TIME);
 	writer.WriteDump(C.TC.S.TIME, C.TC.S.P, C.TC.S.N, C.TC.S.L, C.TC.S.filename_out);
 	writer.DCDWriteStep(C.TC.S.P, C.TC.S.N, C.TC.S.filename_out);
 	writer.DCDHeader(start_time, C.TC.S.N, C.TC.S.filename_out);
